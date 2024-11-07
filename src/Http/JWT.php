@@ -4,6 +4,12 @@ namespace App\Http;
 
 class JWT 
 {
+    private static string $jwtKey;
+
+    public static function initialize()
+    {
+        self::$jwtKey = $_ENV['JWT_KEY'];
+    }
 
     public static function generate(array $data = [])
     {
@@ -35,7 +41,9 @@ class JWT
 
     public static function signature(string $header, string $payload)
     {
-        $signature = hash_hmac('sha256', $header . "." . $payload, $_ENV['JWT_KEY'], true);
+        JWT::initialize();
+
+        $signature = hash_hmac('sha256', $header . "." . $payload, self::$jwtKey , true);
 
         return self::base64url_encode($signature);
     }

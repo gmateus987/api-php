@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Registrar Usuário</title>
+</head>
+<body>
+    <form action='' id='form'>
+        <input type='text' name='name' id='name' placeholder='Your Name'>
+        <input type='email' name='email' id='email' placeholder='Your E-mail'>
+        <input type='password' name='password' id='password' max='12' min='8'>
+        <button type='submit'>Create User</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('form');
+        form.addEventListener('submit', async event => {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            const jsonObject = {};
+            formData.forEach((value, key) => {
+                jsonObject[key] = value;
+            });
+
+            const data = await fetch('http://localhost:5308/api/users/create', {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify(jsonObject)
+            });
+
+            const response = await data.json();
+            console.log(response);
+        })
+    </script>
+</body>
+</html>

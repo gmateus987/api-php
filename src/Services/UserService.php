@@ -30,6 +30,7 @@ class UserService
         } 
         catch (PDOException $e) {
             if ($e->errorInfo[0] === '08006') return ['error'=> 'Sorry, we could not connect to the database.'];
+            if ($e->errorInfo[0] === '23000') return ['error'=> 'Sorry, there is already a user with this email.'];
             return ['error'=> $e->getMessage()];
 
         }
@@ -118,6 +119,7 @@ class UserService
         } 
         catch (PDOException $e) {
             if ($e->errorInfo[0] === '08006') return ['error' => 'Sorry, we could not connect to the database.'];
+            if ($e->errorInfo[0] === '23000') return ['error'=> 'Sorry, there is already a user with this email.'];
             return ['error' => $e->getMessage()];
         }
         catch (Exception $e) {
